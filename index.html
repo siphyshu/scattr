@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>scattr | generate visually rich layouts in seconds</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module" src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'neutral-950': '#0a0a0a',
+                        'neutral-900': '#171717',
+                        'neutral-800': '#262626',
+                        'neutral-700': '#404040',
+                        'neutral-600': '#525252',
+                        'neutral-500': '#737373',
+                        'neutral-400': '#a3a3a3',
+                        'neutral-300': '#d4d4d4',
+                        'neutral-200': '#e5e5e5',
+                        'neutral-100': '#f5f5f5',
+                        'neutral-50': '#fafafa',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alfa+Slab+One&family=Berkshire+Swash&family=Cabin:ital,wght@0,400..700;1,400..700&family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Crimson+Pro:ital,wght@0,200..900;1,200..900&family=Germania+One&family=Lobster&family=Pacifico&family=Rubik:ital,wght@0,300..900;1,300..900&family=Rye&display=swap" rel="stylesheet">
+    
+    <!-- Ransom Note Logo Styles -->
+    <style type="text/css">
+    #ransomizer-mwz4tvgs .ts, #ransomizer-mwz4tvgs .tw, #ransomizer-mwz4tvgs .tc {
+      display: inline-block;
+    }
+
+    #ransomizer-mwz4tvgs .ts {
+      line-height: normal;
+      word-spacing: 0.7em;
+    }
+
+    #ransomizer-mwz4tvgs .ts .tw .tc div::before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    
+    #ransomizer-mwz4tvgs .tc.mlvx-0 { filter: drop-shadow(-1px 1px 1px #666); }
+    #ransomizer-mwz4tvgs .tc.mlvx-0 div::before { background-image: url(https://i.imgur.com/nIRJZjA.png); background-position: left center; }
+    #ransomizer-mwz4tvgs .tc.mlvx-0 div { background-color: #9CAD9C; color: #000000; font-family: 'Cabin', serif; rotate: -3deg; top: -0.04em; clip-path: polygon(1% 4%,96% 3%,100% 15%,93% 94%,4% 100%,0 52%); font-size: 110%; text-transform: uppercase; margin: 0.1em; padding: 0.1em; paint-order: stroke fill; line-height: 75%; position: relative; }
+    
+    #ransomizer-mwz4tvgs .tc.mlvx-1 div::before { background-image: url(https://i.imgur.com/IcV8Q3G.png); background-position: right bottom; }
+    #ransomizer-mwz4tvgs .tc.mlvx-1 div { background-color: #D9D0C3; color: #221d15; font-family: 'Crimson Pro', serif; rotate: -2deg; top: -0.02em; clip-path: polygon(6% 7%,98% 3%,100% 26%,100% 94%,3% 96%,0 0); font-size: 100%; text-transform: uppercase; margin: 0.1em; padding: 0.2em; text-shadow: 0.03em -0.03em #ffffff; paint-order: stroke fill; line-height: 75%; position: relative; }
+    
+    #ransomizer-mwz4tvgs .tc.mlvx-2 { filter: drop-shadow(1px -1px 1px #666); }
+    #ransomizer-mwz4tvgs .tc.mlvx-2 div::before { background-image: url(https://i.imgur.com/56UD0sh.png); background-position: right bottom; }
+    #ransomizer-mwz4tvgs .tc.mlvx-2 div { background-color: #738073; color: #ffffff; font-family: 'Rubik', serif; rotate: 2deg; top: -0.04em; clip-path: polygon(5% 5%,98% 1%,100% 88%,93% 97%,7% 99%,0 63%); font-size: 110%; font-weight: lighter; font-style: italic; text-transform: uppercase; margin: 0.1em; padding: 0.1em; paint-order: stroke fill; line-height: 75%; position: relative; }
+    
+    #ransomizer-mwz4tvgs .tc.mlvx-3 { filter: drop-shadow(1px -1px 1px #666); }
+    #ransomizer-mwz4tvgs .tc.mlvx-3 div::before { background-image: url(https://i.imgur.com/pwrAKPo.png); background-position: left center; }
+    #ransomizer-mwz4tvgs .tc.mlvx-3 div { background-color: #7E7582; color: #ffffff; font-family: 'Cabin', serif; rotate: 0deg; top: -0.02em; clip-path: polygon(0 3%,98% 3%,100% 67%,96% 100%,1% 98%,0 37%); font-size: 110%; font-weight: lighter; margin: 0.1em; padding: 0.2em; paint-order: stroke fill; line-height: 75%; position: relative; }
+    
+    #ransomizer-mwz4tvgs .tc.mlvx-4 { filter: drop-shadow(1px -1px 1px #666); }
+    #ransomizer-mwz4tvgs .tc.mlvx-4 div::before { background-image: url(https://i.imgur.com/IcV8Q3G.png); background-position: left bottom; }
+    #ransomizer-mwz4tvgs .tc.mlvx-4 div { background-color: #9CAD9C; color: #000000; font-family: 'Alfa Slab One', serif; rotate: -1deg; top: 0.01em; clip-path: polygon(1% 2%,99% 0,100% 24%,97% 95%,0 98%,0 84%); font-size: 110%; text-transform: uppercase; margin: 0.1em; padding: 0.1em; paint-order: stroke fill; line-height: 75%; position: relative; }
+    
+    #ransomizer-mwz4tvgs .tc.mlvx-5 { filter: drop-shadow(1px 1px 1px #666); }
+    #ransomizer-mwz4tvgs .tc.mlvx-5 div::before { background-image: url(https://i.imgur.com/pwrAKPo.png); background-position: right top; }
+    #ransomizer-mwz4tvgs .tc.mlvx-5 div { background-color: #FFF5E6; color: #804d00; font-family: 'Crimson Pro', serif; rotate: 3deg; top: -0.01em; clip-path: polygon(6% 6%,97% 4%,100% 75%,95% 95%,1% 99%,0 13%); font-size: 100%; text-transform: lowercase; margin: 0.1em; padding: 0.2em; paint-order: stroke fill; line-height: 75%; position: relative; }
+
+    #ransomizer-mwz4tvgs {
+      --global-font-size: 50px;
+      --global-text-align: left;
+    }
+
+    /* Custom scrollbar for asset preview */
+    #asset-preview::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    #asset-preview::-webkit-scrollbar-track {
+      background: #262626;
+      border-radius: 3px;
+    }
+
+    #asset-preview::-webkit-scrollbar-thumb {
+      background: #525252;
+      border-radius: 3px;
+    }
+
+    #asset-preview::-webkit-scrollbar-thumb:hover {
+      background: #737373;
+    }
+
+    /* Custom scrollbar for canvas area */
+    .overflow-auto::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    .overflow-auto::-webkit-scrollbar-track {
+      background: #262626;
+      border-radius: 4px;
+    }
+
+    .overflow-auto::-webkit-scrollbar-thumb {
+      background: #525252;
+      border-radius: 4px;
+    }
+
+    .overflow-auto::-webkit-scrollbar-thumb:hover {
+      background: #737373;
+    }
+
+    .overflow-auto::-webkit-scrollbar-corner {
+      background: #262626;
+    }
+
+    /* Canvas viewport scrollbars */
+    #canvas-viewport .overflow-auto::-webkit-scrollbar {
+      width: 12px;
+      height: 12px;
+    }
+
+    #canvas-viewport .overflow-auto::-webkit-scrollbar-track {
+      background: #171717;
+      border-radius: 6px;
+    }
+
+    #canvas-viewport .overflow-auto::-webkit-scrollbar-thumb {
+      background: #404040;
+      border-radius: 6px;
+      border: 2px solid #171717;
+    }
+
+    #canvas-viewport .overflow-auto::-webkit-scrollbar-thumb:hover {
+      background: #525252;
+    }
+    </style>
+    <style>
+        /* Clean gradient color swatch implementation */
+        .gradient-color-stop {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid #525252;
+            cursor: grab;
+            transition: all 0.2s ease;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            box-sizing: border-box;
+            flex-shrink: 0;
+            background-clip: padding-box;
+        }
+        
+        .gradient-color-stop:hover {
+            border-color: #737373;
+        }
+        
+        .gradient-color-stop:active {
+            cursor: grabbing;
+        }
+        
+        /* Drag and drop visual states */
+        .gradient-color-stop.dragging {
+            opacity: 0.5;
+        }
+        
+        .gradient-color-stop.drop-target {
+            transform: scale(1.1);
+            border-color: #3b82f6 !important;
+        }
+    </style>
+</head>
+<body class="bg-neutral-950 text-white min-h-screen">
+    <!-- Header -->
+    <header class="text-center py-12 md:py-16">
+        <div class="flex flex-col items-center justify-center mb-3">
+            <div class="texturizer-content">
+                <div id="ransomizer-mwz4tvgs" style="text-align: var(--global-text-align); font-size: var(--global-font-size);">
+                    <div class="ts"><div class="tw"><div data-text="s" class="mlvx-0 tc" style=""><div data-text="s">s</div></div><div data-text="c" class="mlvx-1 tc" style=""><div data-text="c">c</div></div><div data-text="a" class="mlvx-2 tc" style=""><div data-text="a">a</div></div><div data-text="t" class="mlvx-3 tc" style=""><div data-text="t">t</div></div><div data-text="t" class="mlvx-4 tc" style=""><div data-text="t">t</div></div><div data-text="r" class="mlvx-5 tc" style=""><div data-text="r">r</div></div></div>
+                </div>
+            </div>
+            <p class="text-neutral-400 text-base mt-4">generate visually rich layouts in seconds</p>
+        </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="flex flex-col-reverse lg:flex-row mx-12 md:mx-20 lg:mx-32 xl:mx-40 gap-4 md:gap-6 lg:gap-8 mt-8">
+        
+        <!-- Left Sidebar - Controls -->
+        <div class="w-full sm:w-96 bg-neutral-900 border border-neutral-700 rounded-lg p-4 md:p-6">
+            <div class="space-y-6">
+                
+                <!-- Upload Section (Top Level) -->
+                <div class="settings-section">
+                    <button class="settings-header w-full flex items-center justify-between p-3 bg-neutral-800 border-b border-neutral-700 rounded-t-lg hover:bg-neutral-750 transition-colors" data-section="upload">
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="upload" class="w-5 h-5 text-neutral-400"></i>
+                            <span class="text-base font-medium text-neutral-300">Upload Assets</span>
+                        </div>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-neutral-400 transition-transform"></i>
+                    </button>
+                    <div class="settings-content p-4 bg-neutral-800/50 rounded-b-lg">
+                        <div class="border-2 border-dashed border-neutral-700 rounded-lg p-4 text-center hover:border-blue-500 transition-colors">
+                            <input type="file" id="asset-upload" multiple accept="image/*" class="hidden">
+                            <label for="asset-upload" class="cursor-pointer">
+                                <div class="text-neutral-400">
+                                    <i data-lucide="upload" class="mx-auto h-6 w-6 mb-2"></i>
+                                    <p class="text-sm">drop images here or click to upload</p>
+                                </div>
+                            </label>
+                        </div>
+                        <div id="asset-preview" class="grid grid-cols-3 gap-3 mt-3 max-h-48 overflow-y-auto pr-2 hidden"></div>
+                    </div>
+                </div>
+
+                <!-- Canvas Setup Group -->
+                <div class="settings-section">
+                    <button class="settings-header w-full flex items-center justify-between p-3 bg-neutral-800 border-b border-neutral-700 rounded-t-lg hover:bg-neutral-750 transition-colors" data-section="canvas-setup">
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="image" class="w-5 h-5 text-neutral-400"></i>
+                            <span class="text-base font-medium text-neutral-300">Canvas Setup</span>
+                        </div>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-neutral-400 transition-transform"></i>
+                    </button>
+                    <div class="settings-content p-4 bg-neutral-800/50 rounded-b-lg">
+                        <div class="space-y-4">
+                            <!-- Background Options -->
+                            <div>
+                                <div class="flex items-center gap-3 p-2 text-neutral-300">
+                                    <i data-lucide="palette" class="w-5 h-5 text-neutral-400"></i>
+                                    <span class="text-sm font-medium">Background</span>
+                                </div>
+                                <div class="p-2">
+                                    <!-- Background Tabs -->
+                                    <div class="flex mb-3 bg-neutral-800 rounded-lg p-1">
+                                        <button id="bg-tab-image" class="flex-1 py-2 px-3 text-sm rounded-md transition-colors text-neutral-400 hover:text-white">Image</button>
+                                        <button id="bg-tab-color" class="flex-1 py-2 px-3 text-sm rounded-md transition-colors bg-neutral-700 text-white">Color</button>
+                                        <button id="bg-tab-none" class="flex-1 py-2 px-3 text-sm rounded-md transition-colors text-neutral-400 hover:text-white">None</button>
+                                    </div>
+                                    <!-- Image Upload Panel -->
+                                    <div id="bg-panel-image" class="bg-panel hidden">
+                                        <div class="border-2 border-dashed border-neutral-700 rounded-lg p-4 text-center hover:border-blue-500 transition-colors">
+                                            <input type="file" id="bg-upload" accept="image/*" class="hidden">
+                                            <label for="bg-upload" class="cursor-pointer">
+                                                <div class="text-neutral-400">
+                                                    <i data-lucide="image" class="mx-auto h-5 w-5 mb-2"></i>
+                                                    <p class="text-sm">upload background</p>
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <div id="bg-preview" class="hidden mt-3">
+                                            <div class="relative">
+                                                <img id="bg-preview-img" class="w-full h-20 object-cover rounded" alt="Background preview">
+                                                <button id="bg-delete-btn" class="absolute top-1 right-1 bg-red-600 hover:bg-red-700 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs transition-colors">×</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Color/Gradient Panel -->
+                                    <div id="bg-panel-color" class="bg-panel">
+                                        <div class="space-y-4">
+                                            <div class="flex bg-neutral-800 rounded-lg p-1">
+                                                <button id="color-type-solid" class="flex-1 py-2 px-3 text-sm rounded-md transition-colors bg-neutral-700 text-white">Solid color</button>
+                                                <button id="color-type-gradient" class="flex-1 py-2 px-3 text-sm rounded-md transition-colors text-neutral-400 hover:text-white">Gradient</button>
+                                            </div>
+                                            <div id="solid-color-controls">
+                                                <div class="mb-3">
+                                                    <div class="relative w-full h-32 bg-gradient-to-r from-white to-red-500 rounded-lg overflow-hidden cursor-pointer" id="color-picker-area">
+                                                        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black"></div>
+                                                        <div id="color-picker-handle" class="absolute w-4 h-4 border-2 border-white rounded-full shadow-lg pointer-events-none transition-all duration-150" style="transform: translate(calc(100% - 8px), -8px);"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <div class="relative w-full h-3 rounded cursor-pointer" id="hue-slider">
+                                                        <div class="w-full h-full rounded" style="background: linear-gradient(to right, #ff0000 0%, #ffff00 16.7%, #00ff00 33.3%, #00ffff 50%, #0000ff 66.7%, #ff00ff 83.3%, #ff0000 100%);"></div>
+                                                        <div id="hue-handle" class="absolute w-4 h-4 border-2 border-white rounded-full shadow-lg pointer-events-none transition-all duration-150 z-10" style="top: 50%; transform: translate(-8px, -8px); background: #ff0000;"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="flex items-center gap-2">
+                                                    <div class="flex-grow w-12 flex items-center bg-neutral-800 border border-neutral-700 rounded px-3 py-1">
+                                                        <div id="hex-color-swatch" class="w-4 h-4 rounded-full border border-neutral-600 flex-shrink-0 mr-2" style="background: #ffffff;"></div>
+                                                        <span class="text-white text-base font-mono select-none">#</span>
+                                                        <input type="text" id="hex-input" value="ffffff" maxlength="6" class="bg-transparent text-white text-base outline-none font-mono">
+                                                    </div>
+                                                    <button id="eyedropper-btn" class="flex-shrink-0 px-3 py-2 flex items-center justify-center bg-neutral-800 border border-neutral-700 rounded text-neutral-400 hover:text-white hover:bg-neutral-700 transition-colors" title="Eyedropper">
+                                                        <i data-lucide="pipette" class="w-4 h-4"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div id="gradient-controls" class="hidden space-y-4">
+                                                <div>
+                                                    <label class="block text-sm text-neutral-400 mb-2">Gradient colors</label>
+                                                    <div class="flex items-center gap-3">
+                                                        <div class="flex flex-wrap gap-2" id="gradient-colors-container">
+                                                            <div class="gradient-color-stop" draggable="true" data-color="#171717" data-index="0" style="background: #171717;"></div>
+                                                            <div class="gradient-color-stop" draggable="true" data-color="#404040" data-index="1" style="background: #404040;"></div>
+                                                            <button id="add-gradient-color" class="w-10 h-10 rounded-full border-2 border-dashed border-neutral-600 hover:border-neutral-500 flex items-center justify-center text-neutral-400 hover:text-white transition-colors relative overflow-hidden">
+                                                                <div class="absolute inset-0.5 rounded-full opacity-20" style="background: conic-gradient(from 0deg, #ff0000, #ff8000, #ffff00, #80ff00, #00ff00, #00ff80, #00ffff, #0080ff, #0000ff, #8000ff, #ff00ff, #ff0080, #ff0000);"></div>
+                                                                <i data-lucide="plus" class="w-4 h-4 relative z-10"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm text-neutral-400 mb-2">Style</label>
+                                                    <div class="grid grid-cols-5 gap-1.5">
+                                                        <div class="gradient-style-container w-full h-12 border-2 border-blue-500 rounded transition-all"><button class="gradient-style w-full h-full rounded transition-colors" data-style="linear-90" title="Linear 90°"></button></div>
+                                                        <div class="gradient-style-container w-full h-12 border-2 border-transparent rounded transition-all"><button class="gradient-style w-full h-full rounded transition-colors" data-style="linear-180" title="Linear 180°"></button></div>
+                                                        <div class="gradient-style-container w-full h-12 border-2 border-transparent rounded transition-all"><button class="gradient-style w-full h-full rounded transition-colors" data-style="linear-135" title="Linear 135°"></button></div>
+                                                        <div class="gradient-style-container w-full h-12 border-2 border-transparent rounded transition-all"><button class="gradient-style w-full h-full rounded transition-colors" data-style="radial-center" title="Radial Center"></button></div>
+                                                        <div class="gradient-style-container w-full h-12 border-2 border-transparent rounded transition-all"><button class="gradient-style w-full h-full rounded transition-colors" data-style="radial-corner" title="Radial Corner"></button></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Transparent Panel -->
+                                    <div id="bg-panel-none" class="bg-panel hidden">
+                                        <div class="text-center py-4">
+                                            <i data-lucide="eye-off" class="mx-auto h-5 w-5 mb-2 text-neutral-500"></i>
+                                            <p class="text-sm text-neutral-400">Transparent background</p>
+                                            <p class="text-xs text-neutral-500 mt-1">Perfect for overlays and exports</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Canvas Size -->
+                            <div>
+                                <div class="flex items-center gap-3 p-2 text-neutral-300">
+                                    <i data-lucide="maximize-2" class="w-5 h-5 text-neutral-400"></i>
+                                    <span class="text-sm font-medium">Canvas Size</span>
+                                </div>
+                                <div class="p-2">
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label for="canvas-width" class="block text-sm text-neutral-400 mb-2">Width</label>
+                                            <input type="number" id="canvas-width" value="800" min="100" max="2000" class="w-full bg-neutral-800 border border-neutral-700 rounded px-3 py-2 text-white text-base">
+                                        </div>
+                                        <div>
+                                            <label for="canvas-height" class="block text-sm text-neutral-400 mb-2">Height</label>
+                                            <input type="number" id="canvas-height" value="600" min="100" max="2000" class="w-full bg-neutral-800 border border-neutral-700 rounded px-3 py-2 text-white text-base">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Layout Generation Group -->
+                <div class="settings-section">
+                    <button class="settings-header w-full flex items-center justify-between p-3 bg-neutral-800 border-b border-neutral-700 rounded-t-lg hover:bg-neutral-750 transition-colors" data-section="layout-generation">
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="layout-grid" class="w-5 h-5 text-neutral-400"></i>
+                            <span class="text-base font-medium text-neutral-300">Layout Generation</span>
+                        </div>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-neutral-400 transition-transform"></i>
+                    </button>
+                    <div class="settings-content p-4 bg-neutral-800/50 rounded-b-lg">
+                        <div class="space-y-0">
+                            <!-- Layout Settings -->
+                            <div>
+                                <div class="flex items-center gap-3 p-3 text-neutral-300">
+                                    <i data-lucide="layout" class="w-5 h-5 text-neutral-400"></i>
+                                    <span class="text-sm font-medium">Layout Settings</span>
+                                </div>
+                                <div class="p-3">
+                                    <!-- Item Spacing -->
+                                    <div class="mb-4">
+                                        <label for="min-distance" class="block text-sm text-neutral-400 mb-2">Item Spacing: <span id="min-distance-value">1.0x</span></label>
+                                        <input type="range" id="min-distance" min="10" max="200" value="50" class="w-full h-2 bg-neutral-700 rounded-lg appearance-none cursor-pointer slider">
+                                    </div>
+                                    <!-- Fill Density -->
+                                    <div class="mb-4">
+                                        <label for="fill-density" class="block text-sm text-neutral-400 mb-2">Fill Density: <span id="fill-density-value">Medium</span></label>
+                                        <input type="range" id="fill-density" min="1" max="10" value="5" class="w-full h-2 bg-neutral-700 rounded-lg appearance-none cursor-pointer slider">
+                                        <div class="flex justify-between text-xs text-neutral-500 mt-1">
+                                            <span>Sparse</span>
+                                            <span>Dense</span>
+                                        </div>
+                                    </div>
+                                    <!-- Asset Size -->
+                                    <div class="mb-4">
+                                        <label for="asset-size" class="block text-sm text-neutral-400 mb-2">Asset Size: <span id="asset-size-value">Original</span></label>
+                                        <div class="relative">
+                                            <input type="range" id="asset-size" min="1" max="7" value="4" class="w-full h-2 bg-neutral-700 rounded-lg appearance-none cursor-pointer slider">
+                                            <div class="flex justify-between text-xs text-neutral-500 mt-1">
+                                                <span>Tiny</span>
+                                                <span>Huge</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Options -->
+                            <div>
+                                <div class="flex items-center gap-3 p-3 text-neutral-300">
+                                    <i data-lucide="settings" class="w-5 h-5 text-neutral-400"></i>
+                                    <span class="text-sm font-medium">Options</span>
+                                </div>
+                                <div class="p-3">
+                                    <div class="space-y-3">
+                                        <div>
+                                            <div class="flex items-center justify-between">
+                                                <label class="text-sm text-neutral-300">Random Rotation</label>
+                                                <label class="relative inline-flex items-center cursor-pointer">
+                                                    <input type="checkbox" id="random-rotation" class="sr-only peer">
+                                                    <div class="w-11 h-6 bg-neutral-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                                </label>
+                                            </div>
+                                            <div id="rotation-controls" class="mt-3 pl-4 border-l-2 border-neutral-700 hidden">
+                                                <div class="grid grid-cols-2 gap-3">
+                                                    <div>
+                                                        <label for="rotation-min" class="block text-xs text-neutral-400 mb-1">Min Angle</label>
+                                                        <input type="number" id="rotation-min" value="-60" min="-180" max="180" class="w-full bg-neutral-800 border border-neutral-700 rounded px-2 py-1 text-white text-sm">
+                                                    </div>
+                                                    <div>
+                                                        <label for="rotation-max" class="block text-xs text-neutral-400 mb-1">Max Angle</label>
+                                                        <input type="number" id="rotation-max" value="60" min="-180" max="180" class="w-full bg-neutral-800 border border-neutral-700 rounded px-2 py-1 text-white text-sm">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="flex items-center justify-between">
+                                                <label class="text-sm text-neutral-300">Random Scale</label>
+                                                <label class="relative inline-flex items-center cursor-pointer">
+                                                    <input type="checkbox" id="random-scale" class="sr-only peer">
+                                                    <div class="w-11 h-6 bg-neutral-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                                </label>
+                                            </div>
+                                            <div id="scale-controls" class="mt-3 pl-4 border-l-2 border-neutral-700 hidden">
+                                                <div class="grid grid-cols-2 gap-3">
+                                                    <div>
+                                                        <label for="scale-min" class="block text-xs text-neutral-400 mb-1">Min Scale</label>
+                                                        <input type="number" id="scale-min" value="0.7" min="0.1" max="5" step="0.1" class="w-full bg-neutral-800 border border-neutral-700 rounded px-2 py-1 text-white text-sm">
+                                                    </div>
+                                                    <div>
+                                                        <label for="scale-max" class="block text-xs text-neutral-400 mb-1">Max Scale</label>
+                                                        <input type="number" id="scale-max" value="1.3" min="0.1" max="5" step="0.1" class="w-full bg-neutral-800 border border-neutral-700 rounded px-2 py-1 text-white text-sm">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <label class="text-sm text-neutral-300">Unique Assets Only</label>
+                                            <label class="relative inline-flex items-center cursor-pointer">
+                                                <input type="checkbox" id="unique-assets" class="sr-only peer">
+                                                <div class="w-11 h-6 bg-neutral-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="space-y-3 pt-3">
+                    <button id="generate-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded text-base transition-colors">
+                        Generate Layout
+                    </button>
+                    <!-- Export Section -->
+                    <div class="relative">
+                        <div class="flex gap-1">
+                            <button id="export-btn" class="flex-1 bg-neutral-700 hover:bg-neutral-600 text-white font-medium py-3 px-4 rounded text-base transition-colors" disabled>
+                                Export
+                            </button>
+                            <button id="export-settings-btn" class="bg-neutral-700 hover:bg-neutral-600 text-white font-medium py-3 px-4 rounded transition-colors" disabled>
+                                <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                        <div id="export-dropdown" class="absolute bottom-full left-0 right-0 mb-2 bg-[#1e1e1e] border border-neutral-600 rounded-lg shadow-lg p-4 space-y-4 hidden z-50">
+                            <div>
+                                <label class="block text-sm text-neutral-400 mb-2">File Type</label>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <button class="export-format-btn active bg-blue-600 text-white px-3 py-2 rounded text-sm font-medium transition-colors" data-format="png">PNG</button>
+                                    <button class="export-format-btn bg-neutral-700 hover:bg-neutral-600 text-white px-3 py-2 rounded text-sm font-medium transition-colors" data-format="jpg">JPG</button>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm text-neutral-400 mb-2">Size</label>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <button class="export-size-btn bg-neutral-700 hover:bg-neutral-600 text-white px-3 py-2 rounded text-sm font-medium transition-colors" data-scale="1">1x</button>
+                                    <button class="export-size-btn active bg-blue-600 text-white px-3 py-2 rounded text-sm font-medium transition-colors" data-scale="2">2x</button>
+                                    <button class="export-size-btn bg-neutral-700 hover:bg-neutral-600 text-white px-3 py-2 rounded text-sm font-medium transition-colors" data-scale="4">4x</button>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm text-neutral-400 mb-2">Options</label>
+                                <label class="flex items-center space-x-3 cursor-pointer">
+                                    <input type="checkbox" id="export-transparent" class="w-4 h-4 text-blue-600 bg-neutral-700 border-neutral-600 rounded focus:ring-blue-500 focus:ring-2">
+                                    <span class="text-sm text-neutral-300">Transparent Background</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-neutral-500 text-center mt-2">
+                        💡 Press <kbd class="bg-neutral-800 px-1 rounded text-neutral-300">Space</kbd> to regenerate layout
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Canvas Area -->
+        <div class="flex-grow flex flex-col flex-1 bg-neutral-900 border border-neutral-700 rounded-lg overflow-hidden">
+            <div id="canvas-viewport" class="flex-1 relative">
+                <div class="absolute inset-0 overflow-auto">
+                    <div class="min-h-full w-full flex items-center justify-center p-8">
+                        <div id="canvas-container" class="relative">
+                            <canvas id="main-canvas" width="800" height="600" class="bg-neutral-800 block shadow-2xl"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-neutral-700 bg-neutral-800/50 px-8 py-3">
+                <div class="flex items-center justify-center gap-4">
+                    <div class="flex items-center gap-3">
+                        <input type="range" id="zoom-slider" min="10" max="300" value="100" class="w-32 h-2 bg-neutral-700 rounded-lg appearance-none cursor-pointer slider">
+                        <div class="relative">
+                            <button id="zoom-percentage" class="bg-neutral-800 border border-neutral-600 rounded px-3 py-1 text-sm text-neutral-300 hover:bg-neutral-700 transition-colors min-w-[50px] flex items-center gap-1">
+                                <span>100%</span>
+                                <i data-lucide="chevron-down" class="w-3 h-3"></i>
+                            </button>
+                            <div id="zoom-presets-menu" class="absolute bottom-full right-0 mb-2 bg-neutral-800 border border-neutral-600 rounded shadow-lg hidden min-w-[100px] z-50">
+                                <div class="py-1">
+                                    <button class="zoom-preset w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-700" data-zoom="fit">Fit</button>
+                                    <button class="zoom-preset w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-700" data-zoom="fill">Fill</button>
+                                    <div class="border-t border-neutral-600 my-1"></div>
+                                    <button class="zoom-preset w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-700" data-zoom="300">300%</button>
+                                    <button class="zoom-preset w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-700" data-zoom="200">200%</button>
+                                    <button class="zoom-preset w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-700" data-zoom="125">125%</button>
+                                    <button class="zoom-preset w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-700" data-zoom="100">100%</button>
+                                    <button class="zoom-preset w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-700" data-zoom="75">75%</button>
+                                    <button class="zoom-preset w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-700" data-zoom="50">50%</button>
+                                    <button class="zoom-preset w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-700" data-zoom="25">25%</button>
+                                    <button class="zoom-preset w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-700" data-zoom="10">10%</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-8 md:py-12 mt-12 md:mt-16">
+        <p class="text-neutral-500 text-sm">
+            made with ❤️ by 
+            <a href="https://twitter.com/siphyshu" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:text-blue-300 transition-colors">
+                siphyshu
+            </a>
+        </p>
+    </footer>
+
+    <!-- Floating Color Picker -->
+    <div id="floating-color-picker" class="fixed bg-[#1e1e1e] border border-neutral-700 rounded-lg shadow-xl p-4 z-50 hidden" style="width: 340px;">
+        <div class="space-y-4">
+            <div class="flex items-center justify-between mb-2">
+                <p class="text-neutral-400 text-sm">Edit Color</p>
+                <button id="floating-picker-close" class="text-neutral-400 hover:text-white transition-colors">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div class="mb-4">
+                <div class="relative w-full h-32 bg-gradient-to-r from-white to-red-500 rounded-lg overflow-hidden cursor-pointer" id="floating-color-picker-area">
+                    <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black"></div>
+                    <div id="floating-color-picker-handle" class="absolute w-4 h-4 border-2 border-white rounded-full shadow-lg pointer-events-none transition-all duration-150" style="transform: translate(-8px, -8px);"></div>
+                </div>
+            </div>
+            <div class="mb-4">
+                <div class="relative w-full h-3 rounded cursor-pointer" id="floating-hue-slider">
+                    <div class="w-full h-full rounded" style="background: linear-gradient(to right, #ff0000 0%, #ffff00 16.7%, #00ff00 33.3%, #00ffff 50%, #0000ff 66.7%, #ff00ff 83.3%, #ff0000 100%);"></div>
+                    <div id="floating-hue-handle" class="absolute w-4 h-4 border-2 border-white rounded-full shadow-lg pointer-events-none transition-all duration-150 z-10" style="top: 50%; transform: translate(-8px, -8px); background: #ff0000;"></div>
+                </div>
+            </div>
+            <div class="mb-4">
+                <div class="relative w-full h-3 rounded cursor-pointer" id="floating-opacity-slider">
+                    <div class="w-full h-full bg-gradient-to-r from-transparent to-white rounded" style="background-image: linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ccc 75%), linear-gradient(-45deg, transparent 75%, #ccc 75%); background-size: 8px 8px; background-position: 0 0, 0 4px, 4px -4px, -4px 0px;"></div>
+                    <div class="absolute inset-0 rounded" id="floating-opacity-gradient" style="background: linear-gradient(to right, transparent, #ff0000);"></div>
+                    <div id="floating-opacity-handle" class="absolute w-4 h-4 border-2 border-white rounded-full shadow-lg pointer-events-none transition-all duration-150 z-10" style="top: 50%; transform: translate(-8px, -8px); background: #ff0000;"></div>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button id="floating-delete-color" class="flex-shrink-0 px-3 py-2 flex items-center justify-center bg-neutral-800 border border-neutral-700 rounded text-neutral-400 hover:text-red-400 hover:bg-neutral-700 transition-colors" title="Delete Color">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </button>
+                <div class="flex-grow w-12 flex items-center bg-neutral-800 border border-neutral-700 rounded px-3 py-1">
+                    <div id="floating-hex-color-swatch" class="w-4 h-4 rounded-full border border-neutral-600 flex-shrink-0 mr-2" style="background: #171717;"></div>
+                    <span class="text-white text-base font-mono select-none">#</span>
+                    <input type="text" id="floating-hex-input" value="171717" maxlength="6" class="bg-transparent text-white text-base outline-none font-mono">
+                </div>
+                <button id="floating-eyedropper-btn" class="flex-shrink-0 px-3 py-2 flex items-center justify-center bg-neutral-800 border border-neutral-700 rounded text-neutral-400 hover:text-white hover:bg-neutral-700 transition-colors" title="Eyedropper">
+                    <i data-lucide="pipette" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .hover\:bg-neutral-750:hover {
+            background-color: #404040;
+        }
+    </style>
+    <script src="script.js"></script>
+    <script>
+        // Initialize app and lucide icons after DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+            new ScattrApp();
+        });
+    </script>
+</body>
+</html>
