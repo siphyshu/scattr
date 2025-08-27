@@ -145,6 +145,23 @@ class ScattrApp {
         document.getElementById('zoom-percentage').addEventListener('click', () => {
             this.toggleZoomPresets();
         });
+        
+        // Handle window resize and orientation changes for mobile
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                // Re-adjust zoom on resize, especially important for mobile
+                this.autoAdjustZoom();
+            }, 250);
+        });
+        
+        // Handle orientation change specifically
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                this.autoAdjustZoom();
+            }, 100);
+        });
 
         // Background tab handlers
         ['bg-tab-image', 'bg-tab-color', 'bg-tab-none'].forEach(tabId => {
@@ -1355,8 +1372,11 @@ class ScattrApp {
 
     zoomToFit() {
         const viewport = document.getElementById('canvas-viewport');
-        const containerWidth = viewport.clientWidth - 64; // Account for padding
-        const containerHeight = viewport.clientHeight - 64;
+        // Adjust padding based on screen size
+        const isMobile = window.innerWidth < 640;
+        const padding = isMobile ? 32 : 64; // Less padding on mobile
+        const containerWidth = viewport.clientWidth - padding;
+        const containerHeight = viewport.clientHeight - padding;
         
         const scaleX = containerWidth / this.canvas.width;
         const scaleY = containerHeight / this.canvas.height;
@@ -1367,8 +1387,11 @@ class ScattrApp {
 
     zoomToFill() {
         const viewport = document.getElementById('canvas-viewport');
-        const containerWidth = viewport.clientWidth - 64; // Account for padding
-        const containerHeight = viewport.clientHeight - 64;
+        // Adjust padding based on screen size
+        const isMobile = window.innerWidth < 640;
+        const padding = isMobile ? 32 : 64; // Less padding on mobile
+        const containerWidth = viewport.clientWidth - padding;
+        const containerHeight = viewport.clientHeight - padding;
         
         const scaleX = containerWidth / this.canvas.width;
         const scaleY = containerHeight / this.canvas.height;
@@ -1452,8 +1475,11 @@ class ScattrApp {
 
     autoAdjustZoom() {
         const viewport = document.getElementById('canvas-viewport');
-        const containerWidth = viewport.clientWidth - 64; // Account for padding
-        const containerHeight = viewport.clientHeight - 64;
+        // Adjust padding based on screen size
+        const isMobile = window.innerWidth < 640;
+        const padding = isMobile ? 32 : 64; // Less padding on mobile
+        const containerWidth = viewport.clientWidth - padding;
+        const containerHeight = viewport.clientHeight - padding;
         
         // Calculate if canvas is too big for container
         const scaleX = containerWidth / this.canvas.width;
@@ -1462,6 +1488,11 @@ class ScattrApp {
         
         // If canvas is too big, auto-zoom to fit
         if (maxScale < 1) {
+            this.zoomToFit();
+        }
+        
+        // On mobile, always auto-fit the canvas initially
+        if (isMobile && this.currentZoom === 100) {
             this.zoomToFit();
         }
     }
