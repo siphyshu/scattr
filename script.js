@@ -1114,22 +1114,65 @@ class ScattrApp {
     }
 
     setupCollapsibleSections() {
-        // --- Define which sections should be open by default ---
-        const defaultOpenSections = ['upload', 'layout-generation'];
+        // --- Define which section should be open by default (only one allowed) ---
+        const defaultOpenSection = 'upload';
 
         const headers = document.querySelectorAll('.settings-header');
+        
+        // Helper function to collapse a section with animation
+        const collapseSection = (content, chevron) => {
+            const sectionHeight = content.scrollHeight;
+            content.style.maxHeight = sectionHeight + 'px';
+            content.classList.remove('expanded');
+            
+            // Force reflow
+            content.offsetHeight;
+            
+            // Start collapse animation
+            content.classList.add('collapsed');
+            chevron.style.transform = 'rotate(0deg)';
+            
+            // After animation completes, add hidden class
+            setTimeout(() => {
+                content.classList.add('hidden');
+                content.style.maxHeight = '';
+            }, 300);
+        };
+        
+        // Helper function to expand a section with animation
+        const expandSection = (content, chevron) => {
+            content.classList.remove('hidden', 'collapsed');
+            
+            // Get the natural height
+            const sectionHeight = content.scrollHeight;
+            content.style.maxHeight = '0px';
+            
+            // Force reflow
+            content.offsetHeight;
+            
+            // Start expand animation
+            content.style.maxHeight = sectionHeight + 'px';
+            content.classList.add('expanded');
+            chevron.style.transform = 'rotate(180deg)';
+            
+            // After animation completes, remove max-height
+            setTimeout(() => {
+                content.style.maxHeight = '';
+            }, 300);
+        };
         
         headers.forEach(header => {
             const sectionName = header.dataset.section;
             const content = header.nextElementSibling;
             const chevron = header.querySelector('[data-lucide="chevron-down"]');
 
-            // Set the initial state based on the array above
-            if (defaultOpenSections.includes(sectionName)) {
+            // Set the initial state - only the default section is open
+            if (sectionName === defaultOpenSection) {
                 content.classList.remove('hidden');
+                content.classList.add('expanded');
                 chevron.style.transform = 'rotate(180deg)';
             } else {
-                content.classList.add('hidden');
+                content.classList.add('hidden', 'collapsed');
                 chevron.style.transform = 'rotate(0deg)';
             }
 
@@ -1137,14 +1180,27 @@ class ScattrApp {
             header.addEventListener('click', (e) => {
                 e.preventDefault();
                 
-                const isExpanded = !content.classList.contains('hidden');
+                const isExpanded = content.classList.contains('expanded');
                 
                 if (isExpanded) {
-                    content.classList.add('hidden');
-                    chevron.style.transform = 'rotate(0deg)';
+                    // Close this section
+                    collapseSection(content, chevron);
                 } else {
-                    content.classList.remove('hidden');
-                    chevron.style.transform = 'rotate(180deg)';
+                    // Close all other sections first
+                    headers.forEach(otherHeader => {
+                        if (otherHeader !== header) {
+                            const otherContent = otherHeader.nextElementSibling;
+                            const otherChevron = otherHeader.querySelector('[data-lucide="chevron-down"]');
+                            if (otherContent.classList.contains('expanded')) {
+                                collapseSection(otherContent, otherChevron);
+                            }
+                        }
+                    });
+                    
+                    // Then open this section after a short delay to allow other sections to close
+                    setTimeout(() => {
+                        expandSection(content, chevron);
+                    }, 100);
                 }
             });
         });
